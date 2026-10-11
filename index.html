@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name – Developer Portfolio</title>
+<meta name="description" content="Projects and code by Your Name.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E8EDF3; --panel:#F8FAFC; --ink:#142033; --muted:#53627a;
+  --add:#17794A; --add-bg:#DDF3E6; --del:#B3261E; --del-bg:#FBE3E1; --line:#C5CFDC;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1724; --panel:#17212F; --ink:#E6ECF5; --muted:#93A3BA;
+    --add:#5FD08C; --add-bg:#12301F; --del:#FF8A80; --del-bg:#3A1816; --line:#2B3A50;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:1rem}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:17px/1.6 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:4rem 1.25rem 5rem}
+h1{font-size:clamp(2.4rem,7vw,4.2rem);line-height:1.02;margin:0 0 1rem;font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.5rem;margin:4rem 0 1.25rem;font-weight:700}
+p{max-width:62ch;margin:.5rem 0}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:3px solid var(--add);outline-offset:3px}
+.links{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem}
+.links a{padding:.5rem 1rem;border:2px solid var(--ink);border-radius:6px;text-decoration:none;font-weight:700}
+.links a:hover{background:var(--ink);color:var(--bg)}
+/* the git log */
+.log{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.88rem}
+.commit{border-bottom:1px solid var(--line)}
+.commit:last-child{border-bottom:0}
+.commit button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:4.5rem 1fr auto;gap:1rem;
+  width:100%;padding:.9rem 1rem;cursor:pointer;align-items:baseline}
+.commit button:hover{background:var(--bg)}
+.hash{color:var(--add);font-weight:600}
+.msg{font-weight:600}
+.date{color:var(--muted)}
+.body{display:none;padding:0 1rem 1.1rem 6.5rem}
+.commit.open .body{display:block}
+.body p{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1rem;color:var(--ink)}
+.diff{margin:.75rem 0;border-radius:6px;overflow:hidden}
+.diff div{padding:.15rem .7rem;white-space:pre-wrap}
+.diff .a{background:var(--add-bg);color:var(--add)}
+.diff .d{background:var(--del-bg);color:var(--del)}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.tags span{border:1px solid var(--line);border-radius:4px;padding:0 .5rem;color:var(--muted)}
+.repo{display:inline-block;margin-top:.4rem;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700}
+.stack{display:flex;flex-wrap:wrap;gap:.5rem;padding:0;list-style:none}
+.stack li{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.25rem .8rem}
+footer{margin-top:4rem;color:var(--muted);font-size:.9rem}
+@media (max-width:560px){
+  .commit button{grid-template-columns:1fr;gap:.2rem}
+  .body{padding-left:1rem}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>Hi, I'm <span id="name">Your Name</span>.</h1>
+    <p id="tagline">I build web apps and write clean, tested code. Replace this line with one sentence about what you do and what you're looking for.</p>
+    <div class="links" id="links"></div>
+  </header>
+
+  <section>
+    <h2>Projects</h2>
+    <p style="color:var(--muted)">Each entry is a commit. Select one to read more.</p>
+    <div class="log" id="log"></div>
+  </section>
+
+  <section>
+    <h2>Tools I use</h2>
+    <ul class="stack" id="stack"></ul>
+  </section>
+
+  <footer>Built with plain HTML, hosted on GitHub Pages.</footer>
+</main>
+
+<script>
+/* ===== EDIT ONLY THIS BLOCK ===== */
+const PROFILE = {
+  name: "Your Name",
+  tagline: "I build web apps and write clean, tested code. Replace this with one sentence about what you do.",
+  links: [
+    { label: "GitHub", href: "https://github.com/your-username" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/your-handle" },
+    { label: "Email", href: "mailto:you@example.com" }
+  ],
+  stack: ["JavaScript", "Python", "HTML/CSS", "SQL", "Git", "React"]
+};
+
+const PROJECTS = [
+  {
+    title: "Project One: what it does in a few words",
+    date: "2026-09",
+    summary: "Two or three sentences: the problem it solves, who it is for, and what you built.",
+    before: "Manual process that took hours",
+    after: "Automated flow that takes seconds",
+    tags: ["React", "Node.js", "PostgreSQL"],
+    repo: "https://github.com/your-username/project-one",
+    demo: ""
+  },
+  {
+    title: "Project Two: what it does in a few words",
+    date: "2026-05",
+    summary: "Describe your role, one hard problem you solved, and the result.",
+    before: "",
+    after: "",
+    tags: ["Python", "Flask"],
+    repo: "https://github.com/your-username/project-two",
+    demo: ""
+  }
+];
+/* ===== END EDIT BLOCK ===== */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+document.title = PROFILE.name + " – Developer Portfolio";
+$("name").textContent = PROFILE.name;
+$("tagline").textContent = PROFILE.tagline;
+$("links").innerHTML = PROFILE.links.map(l => `<a href="${esc(l.href)}">${esc(l.label)}</a>`).join("");
+$("stack").innerHTML = PROFILE.stack.map(s => `<li>${esc(s)}</li>`).join("");
+
+function hash(str){ // short fake commit hash from the title, purely decorative
+  let h = 0; for (const c of str) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return h.toString(16).padStart(7, "0").slice(0, 7);
+}
+
+$("log").innerHTML = PROJECTS.map((p, i) => `
+  <div class="commit${i === 0 ? " open" : ""}">
+    <button aria-expanded="${i === 0}" aria-controls="b${i}">
+      <span class="hash">${hash(p.title)}</span>
+      <span class="msg">${esc(p.title)}</span>
+      <span class="date">${esc(p.date)}</span>
+    </button>
+    <div class="body" id="b${i}">
+      <p>${esc(p.summary)}</p>
+      ${p.before || p.after ? `<div class="diff">
+        ${p.before ? `<div class="d">- ${esc(p.before)}</div>` : ""}
+        ${p.after ? `<div class="a">+ ${esc(p.after)}</div>` : ""}
+      </div>` : ""}
+      <div class="tags">${p.tags.map(t => `<span>${esc(t)}</span>`).join("")}</div>
+      <a class="repo" href="${esc(p.repo)}">View code on GitHub</a>
+      ${p.demo ? ` &nbsp; <a class="repo" href="${esc(p.demo)}">Live demo</a>` : ""}
+    </div>
+  </div>`).join("");
+
+document.querySelectorAll(".commit button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const open = btn.parentElement.classList.toggle("open");
+    btn.setAttribute("aria-expanded", open);
+  });
+});
+</script>
+</body>
+</html>
