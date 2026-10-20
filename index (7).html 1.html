@@ -1,0 +1,303 @@
+<DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faith | System Analyst in the Making</title>
+<meta name="description" content="Faith turns messy problems into working systems. See Project Nexus and other projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050505; --panel: #0a0f2e; --panel-on: #2a0a10;
+    --red: #ff3b3f; --red-deep: #d1171c; --blue: #3b6cff; --blue-deep: #14246e;
+    --soft: #f1f3ff; --muted: #aab4e3; --line: #26358f;
+    --spider: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M18 17L7 8M18 18L4 15M18 19L4 24M18 20L8 31M18 17L29 8M18 18L32 15M18 19L32 24M18 20L28 31' stroke='%23000' stroke-width='4.5'/%3E%3Cpath d='M18 17L7 8M18 18L4 15M18 19L4 24M18 20L8 31M18 17L29 8M18 18L32 15M18 19L32 24M18 20L28 31' stroke='%23ff2b30' stroke-width='2'/%3E%3C/g%3E%3Cellipse cx='18' cy='22' rx='4.5' ry='6.5' fill='%23ff2b30' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='18' cy='13' r='3.2' fill='%23ff2b30' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+    --ring: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Ccircle cx='18' cy='18' r='13' fill='none' stroke='%23000' stroke-width='5'/%3E%3Ccircle cx='18' cy='18' r='13' fill='none' stroke='%233b6cff' stroke-width='3'/%3E%3Ccircle cx='18' cy='18' r='3' fill='%23ff2b30'/%3E%3C/svg%3E");
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--soft); font-family: Figtree, system-ui, sans-serif; line-height: 1.6;
+    cursor: var(--spider) 18 18, auto; }
+  a, button, .row, .node { cursor: var(--ring) 20 20, pointer; }
+
+  /* background video: white lines are tinted blue, black stays black */
+  .bgvid { position: fixed; inset: 0; z-index: -2; overflow: hidden; background: var(--bg); pointer-events: none; }
+  .bgvid video { width: 100%; height: 100%; object-fit: cover; opacity: .6; display: block; }
+  .bgvid::before { content: ""; position: absolute; inset: 0; background: var(--blue); mix-blend-mode: multiply; z-index: 1; }
+  .bgvid::after { content: ""; position: absolute; inset: 0; z-index: 2;
+    background:
+      radial-gradient(ellipse at 85% 8%, rgba(255, 59, 63, .22), transparent 50%),
+      radial-gradient(ellipse at 10% 95%, rgba(59, 108, 255, .22), transparent 50%),
+      radial-gradient(ellipse at 40% 30%, rgba(5, 5, 5, .1), rgba(5, 5, 5, .78) 85%); }
+
+  /* spider-web corners */
+  .web { position: fixed; width: min(260px, 42vw); aspect-ratio: 1; z-index: -1; opacity: .45; pointer-events: none; }
+  .web.tl { top: 0; left: 0; }
+  .web.br { bottom: 0; right: 0; transform: rotate(180deg); }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--red); outline-offset: 5px; }
+  h1, h2, h3, .display { font-family: Bangers, "Comic Sans MS", system-ui, sans-serif; font-weight: 400; letter-spacing: .03em; margin: 0; line-height: 1.05; }
+
+  /* glowing circle that follows the cursor */
+  .glow { position: fixed; left: 0; top: 0; width: 240px; height: 240px; margin: -120px 0 0 -120px; border-radius: 50%;
+    pointer-events: none; z-index: 9; opacity: 0; mix-blend-mode: screen; will-change: transform;
+    transition: opacity .3s, width .25s, height .25s, margin .25s;
+    background:
+      radial-gradient(circle, rgba(255, 255, 255, .55) 0, rgba(255, 255, 255, 0) 6%),
+      radial-gradient(circle, rgba(255, 70, 74, .5) 0%, rgba(255, 59, 63, .26) 24%, rgba(59, 108, 255, .22) 50%, transparent 70%); }
+  .glow.on { opacity: 1; }
+  .glow.big { width: 330px; height: 330px; margin: -165px 0 0 -165px; }
+  @media (pointer: coarse) { .glow { display: none; } }
+
+  /* top */
+  .top { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; }
+  .top .logo { font-family: Bangers, "Comic Sans MS", sans-serif; font-size: 2rem; letter-spacing: .04em; text-decoration: none; color: var(--red); text-shadow: 2px 2px 0 #000; }
+  .top nav { display: flex; gap: 20px; flex-wrap: wrap; justify-content: flex-end; }
+  .top nav a { white-space: nowrap; text-decoration: none; color: var(--muted); font-weight: 700; }
+  .top nav a:hover { color: var(--red); }
+
+  /* hero */
+  .hero { display: grid; grid-template-columns: 1fr 190px; gap: 36px; align-items: end; padding: 48px 0 44px; }
+  .hero h1 { font-size: clamp(4rem, 15vw, 8rem); color: var(--red); text-shadow: 4px 4px 0 var(--blue-deep), 8px 8px 0 #000; }
+  .bubble { position: relative; max-width: 50ch; margin: 30px 0 0; padding: 16px 22px; background: #fff; color: #0b0b14; font-size: 1.08rem; font-weight: 500;
+    border: 3px solid #000; border-radius: 22px; box-shadow: 6px 6px 0 var(--red-deep); }
+  .bubble::after { content: ""; position: absolute; left: 36px; bottom: -14px; width: 22px; height: 22px; background: #fff;
+    border-right: 3px solid #000; border-bottom: 3px solid #000; transform: rotate(45deg); }
+  .pic { width: 190px; aspect-ratio: 1; border-radius: 50%; overflow: hidden; border: 4px solid var(--red); box-shadow: 7px 7px 0 var(--blue); background: var(--panel);
+    display: grid; place-items: center; font: 400 4rem Bangers, "Comic Sans MS", sans-serif; color: var(--red); }
+  .pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* system flow */
+  .how { padding: 28px 0 64px; }
+  .how h2 { font-size: 1.7rem; color: var(--soft); margin-bottom: 22px; text-shadow: 3px 3px 0 var(--blue-deep); }
+  .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px; list-style: none; padding: 0; margin: 0; }
+  .flow li { position: relative; }
+  .node { width: 100%; text-align: left; font: 400 1.5rem Bangers, "Comic Sans MS", sans-serif; letter-spacing: .04em; color: var(--soft);
+    background: var(--panel); border: 3px solid var(--blue); border-radius: 12px; padding: 14px 16px; box-shadow: 5px 5px 0 var(--red-deep); }
+  .node:hover { border-color: var(--red); }
+  .node[aria-pressed="true"] { background: var(--red-deep); border-color: #000; color: #fff; box-shadow: 5px 5px 0 var(--blue); }
+  .flow li:not(:last-child)::after { content: ""; position: absolute; top: 50%; left: 100%; width: 34px; height: 3px; margin-top: -1px;
+    background: linear-gradient(90deg, var(--line) 0%, var(--red) 50%, var(--line) 100%); background-size: 300% 100%;
+    animation: pulse 2.8s linear infinite; }
+  .flow li:nth-child(2)::after { animation-delay: .5s; }
+  .flow li:nth-child(3)::after { animation-delay: 1s; }
+  @keyframes pulse { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+  #flowText { margin: 26px 0 0; padding: 18px 20px; border-left: 5px solid var(--red); background: var(--panel); border-radius: 0 12px 12px 0; max-width: 62ch; }
+
+  /* work */
+  section.block { padding: 48px 0; border-top: 3px solid var(--line); }
+  section.block > h2 { font-size: clamp(2.2rem, 6vw, 3.2rem); margin-bottom: 26px; color: var(--soft); text-shadow: 3px 3px 0 var(--blue-deep); }
+  .row { display: grid; grid-template-columns: 1.1fr 1.5fr; gap: 8px 28px; padding: 22px 16px; margin: 0 -16px; text-decoration: none; border-radius: 14px; }
+  .row + .row { border-top: 1px solid var(--line); border-radius: 0; }
+  .row:hover { background: var(--panel); box-shadow: inset 5px 0 0 var(--red); }
+  .row h3 { font-size: 1.9rem; color: var(--soft); }
+  .row.main h3 { color: var(--red); font-size: 2.4rem; }
+  .row p { margin: 0; color: var(--muted); }
+  .tags { grid-column: 2; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 6px 0 0; list-style: none; }
+  .tags li { border: 1px solid var(--blue); border-radius: 999px; padding: 1px 12px; font-size: .85rem; color: var(--muted); }
+
+  .tools { display: flex; flex-wrap: wrap; gap: 14px; padding: 0; margin: 0; list-style: none; }
+  .tools li { background: var(--panel); border: 2px solid var(--blue); padding: 8px 18px; border-radius: 10px; font-weight: 700; box-shadow: 4px 4px 0 var(--red-deep); }
+
+  .contact h2 { margin-bottom: 14px; }
+  .mail { font: 400 clamp(1.5rem, 5.5vw, 2.6rem) Bangers, "Comic Sans MS", sans-serif; letter-spacing: .03em; color: var(--red); word-break: break-all; text-shadow: 2px 2px 0 #000; }
+  .links { margin-top: 18px; display: flex; gap: 22px; flex-wrap: wrap; font-weight: 700; }
+  footer { padding: 40px 0 56px; color: var(--muted); font-size: .9rem; }
+
+  #musicBtn { position: fixed; right: 18px; bottom: 18px; z-index: 10; font: 400 1.2rem Bangers, "Comic Sans MS", sans-serif; letter-spacing: .05em; color: #fff;
+    background: var(--red-deep); border: 3px solid #000; border-radius: 999px; padding: 8px 22px; box-shadow: 4px 4px 0 var(--blue); }
+  #musicBtn[aria-pressed="true"] { background: var(--blue); }
+
+  @media (max-width: 1080px) {
+    .hero { grid-template-columns: 1fr; }
+    .pic { order: -1; width: 130px; font-size: 3rem; }
+    .flow { grid-template-columns: 1fr; gap: 30px; }
+    .flow li:not(:last-child)::after { top: 100%; left: 24px; width: 3px; height: 30px; margin: 0;
+      background: linear-gradient(180deg, var(--line) 0%, var(--red) 50%, var(--line) 100%); background-size: 100% 300%; animation-name: pulse-v; }
+    @keyframes pulse-v { from { background-position: 0 100%; } to { background-position: 0 -100%; } }
+    .row { grid-template-columns: 1fr; }
+    .tags { grid-column: 1; }
+    .top nav { gap: 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .flow li::after { animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="bgvid" aria-hidden="true">
+  <video id="bgvideo" src="illusion.mp4" autoplay muted loop playsinline preload="illusion.mp4"></video>
+</div>
+
+<svg class="web tl" viewBox="0 0 260 260" fill="none" stroke="#cfd6ff" stroke-width="1.3" aria-hidden="true">
+  <path d="M0 0L260 0 M0 0L240 99 M0 0L184 184 M0 0L99 240 M0 0L0 260 M55 0Q46 9 51 21Q39 26 39 39Q26 39 21 51Q9 46 0 55 M105 0Q89 18 97 40Q75 50 74 74Q50 75 40 97Q18 89 0 105 M155 0Q131 26 143 59Q111 74 110 110Q74 111 59 143Q26 131 0 155 M205 0Q173 34 189 78Q147 98 145 145Q98 147 78 189Q34 173 0 205"/>
+</svg>
+<svg class="web br" viewBox="0 0 260 260" fill="none" stroke="#cfd6ff" stroke-width="1.3" aria-hidden="true">
+  <path d="M0 0L260 0 M0 0L240 99 M0 0L184 184 M0 0L99 240 M0 0L0 260 M55 0Q46 9 51 21Q39 26 39 39Q26 39 21 51Q9 46 0 55 M105 0Q89 18 97 40Q75 50 74 74Q50 75 40 97Q18 89 0 105 M155 0Q131 26 143 59Q111 74 110 110Q74 111 59 143Q26 131 0 155 M205 0Q173 34 189 78Q147 98 145 145Q98 147 78 189Q34 173 0 205"/>
+</svg>
+
+<div class="glow" id="glow" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <header class="top">
+    <a class="logo" href="#">Faith</a>
+    <nav aria-label="Main">
+      <a href="#intro"> </a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="intro">
+    <div>
+      <h1>Welcome.</h1>
+      <p class=></p>
+    <div class="pic">
+      <img src="peyt.jpg" alt="peyt.jpg" onerror="this.remove()">
+      <span aria-hidden="true">F</span>
+    </div>
+  </section>
+
+  <section class="how" aria-labelledby="howTitle">
+    <h2 id="howTitle">How I work. Tap each step.</h2>
+    <ol class="flow" id="flow">
+      <li><button class="node" type="button" aria-pressed="true">Listen</button></li>
+      <li><button class="node" type="button" aria-pressed="false">Map</button></li>
+      <li><button class="node" type="button" aria-pressed="false">Design</button></li>
+      <li><button class="node" type="button" aria-pressed="false">Build</button></li>
+    </ol>
+    <p id="flowText" aria-live="polite"></p>
+  </section>
+
+  <section class="block" id="work">
+    <h2>projects</h2>
+    <a class="row main" href="#">
+      <h3>Smart First-Aid Pocket GUide</h3>
+      <p>Medi-key: An interactive Handheld First-Aid Guide And VItal Signs Monitor.</p>
+      <ul class="tags"><li>Software design</li><li></li><li>Hardware Design</li></ul>
+    </a>
+    <a class="row" href="#">
+      <h3>ParkEasy</h3>
+      <p>Parking slot reservation and management system, built for my thesis.</p>
+      <ul class="tags"><li>Thesis</li><li>System Analyst</li></ul>
+    </a>
+    <a class="row" href="#">
+      <h3>AURAGUARD AI</h3>
+      <p>To monitor students stress, fatigue, and physiological indicators overtime using non-contact computer vision and thermal sensing.</p>
+      <ul class="tags"><li>java</li><li>python</li></ul>
+    </a>
+  </section>
+
+  <section class="block" id="skills">
+    <h2>Skills &amp; Expertise</h2>
+    <ul class="tools">
+      <li>Git &amp; GitHub</li><li>HTML</li>sql<li>CSS</li>Python<li>javascript</li>
+    </ul>
+  </section>
+
+  <section class="block" id="education">
+     <h2>Education</h2>
+     <div class="row">
+       <h3>BS of Computer Engineering</h3>
+       <h4>2023-present</h4>
+       <p>I’m continuing to develop my knowledge of software development, system analysis, and technology.</p>
+       <ul class="tags"><li>System Analysis</li><li>Software Development</li><li>Technology</li></ul>
+     </div>
+   </section>
+
+   <section class="block" id="experience">
+     <h2> Project Experience</h2>
+     <div class="row">
+       <h3>Academic &amp; Personal Projects</h3>
+       <p>Applied project planning, system design, documentation, and development concepts through projects such as Project Nexus, ParkEasy, and AURAGUARD AI.</p>
+       <ul class="tags"><li>Project Planning</li><li>System Design</li><li>Documentation</li></ul>
+    <h4>Work Experience</h4>
+     </div class="row">
+       <ul class="tags"><li>Auditor</li><li></li><li></li></ul>
+     <p style="color:var(--muted);max-width:70ch;margin-top:16px;"></p>
+   </section>
+
+<section class="block contact" id="contact">
+    <h2> contact me!</h2>
+    <a class= href="mailto:faith30.guinte@gmail.com"></a>
+    <div class="links">
+      <a href="https://github.com/faith123095" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/faith-alvarez-792751289/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://mail.google.com/mail/u/0/#inbox"target="_blank" rel="mailto:faith30.guinte@gmail.com">faith30.guinte@gmail.com</a>
+    </div>
+  </section>
+
+  <footer>© 2026 Faith. <br></footer>
+
+</footer>
+</div>
+
+<audio id="bgm" src="music.mp3" loop preload="music.mp3"></audio>
+<button id="musicBtn" type="button" aria-pressed="false" aria-label="Play background music">♪ Music</button>
+
+<script>
+  var STEPS = [
+    'Listen: I start with the people. Who uses this, what slows them down, and what does “done” look like for them?',
+    'Map: I turn what I heard into a model of the system: users, data, and how information moves from one place to another.',
+    'Design: I shape the map into screens and structure, and check each one still solves the original problem.',
+    'Build: I write the code in small commits on branches, review changes with pull requests, and keep GitHub as the record.'
+  ];
+  var nodes = document.querySelectorAll('.node');
+  var text = document.getElementById('flowText');
+  function show(i) {
+    nodes.forEach(function (n, k) { n.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    text.textContent = STEPS[i];
+  }
+  nodes.forEach(function (n, i) { n.addEventListener('click', function () { show(i); }); });
+  show(0);
+
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // background video
+  var bgv = document.getElementById('bgvideo');
+  if (still) { bgv.removeAttribute('autoplay'); bgv.pause(); }
+
+  // music button
+  var bgm = document.getElementById('bgm');
+  var musicBtn = document.getElementById('musicBtn');
+  bgm.volume = 0.5;
+  musicBtn.addEventListener('click', function () {
+    if (bgm.paused) {
+      bgm.play();
+      musicBtn.textContent = '❚❚ Pause';
+      musicBtn.setAttribute('aria-pressed', 'true');
+    } else {
+      bgm.pause();
+      musicBtn.textContent = '♪ Music';
+      musicBtn.setAttribute('aria-pressed', 'false');
+    }
+  });
+
+  // glowing circle that follows the cursor (mouse devices only)
+  var glow = document.getElementById('glow');
+  if (!window.matchMedia('(pointer: fine)').matches) {
+    glow.remove();
+  } else {
+    var tx = window.innerWidth / 2, ty = window.innerHeight / 2, cx = tx, cy = ty;
+    var ease = still ? 1 : 0.16;
+    window.addEventListener('mousemove', function (e) {
+      tx = e.clientX; ty = e.clientY; glow.classList.add('on');
+    });
+    document.documentElement.addEventListener('mouseleave', function () { glow.classList.remove('on'); });
+    document.addEventListener('mouseover', function (e) {
+      glow.classList.toggle('big', !!(e.target.closest && e.target.closest('a, button')));
+    });
+    (function tick() {
+      cx += (tx - cx) * ease; cy += (ty - cy) * ease;
+      glow.style.transform = 'translate3d(' + cx + 'px,' + cy + 'px,0)';
+      requestAnimationFrame(tick);
+    })();
+  }
+</script>
+</body>
+</html>
